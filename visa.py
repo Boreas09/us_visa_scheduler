@@ -220,15 +220,14 @@ def reschedule(date):
         "path": "/",
         "domain": "ais.usvisa-info.com",
         "expires": "1969-12-31T23:59:59.000Z",
-        "httpOnly": True,
-        "secure": True,
         "sameSite": "None",
     }
     send_notification("data!", f"data/payload {data}")
     r = requests.post(APPOINTMENT_URL, headers=headers, data=data, cookies=cookie)
     send_notification("request!", f"request {r.text}")
     info_logger(LOG_FILE_NAME, r.text)
-    if r.text.find("Successfully Scheduled") != -1:
+    rString = r.text
+    if rString.find("Successfully Scheduled") != -1:
         title = "SUCCESS"
         msg = f"Rescheduled Successfully! {date} {time}"
     else:
